@@ -2,10 +2,10 @@
 import { ref } from 'vue'
 
 const menu = ref([
-  { 
-    name: '8583转换',
-    url: '/data8583',
-  },
+  // { 
+  //   name: '8583转换',
+  //   url: '/data8583',
+  // },
   { 
     name: '参数转换',
     url: '/param',

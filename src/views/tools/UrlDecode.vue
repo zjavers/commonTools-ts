@@ -6,7 +6,6 @@
 
 import { ElMessage } from 'element-plus'
 import { useRouter } from 'vue-router'
-import jsonPrettyHtml from 'json-pretty-html';
 import hljs from 'highlight.js';
 import 'highlight.js/styles/a11y-dark.min.css'; // 可以选择你喜欢的主题样式
   

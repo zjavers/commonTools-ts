@@ -10,91 +10,36 @@ import hljs from 'highlight.js';
 import 'highlight.js/styles/a11y-dark.min.css'; // 可以选择你喜欢的主题样式
   
   const text = ref('');
-  const errorMessage = ref('');
+  const img = ref('')
   const router = useRouter()
-  const placeholder = import.meta.env.VITE_JSON_PLACEHOLDER || '请输入JSON'
+  const placeholder = import.meta.env.VITE_IMG_PLACEHOLDER || '请输入16进制'
 
-    //解码
-    const decode = async ()=> {
+  //转换报文
+  const submit = async ()=> {
 
-      if(text.value!==''){        
-        errorMessage.value =  formattedData(decodeURL(text.value));
-      }else{
-        ElMessage.warning('请输入报文！')
-      }
-
-    }
-    
-    //编码
-    const encode = async ()=> {
-
-      if(text.value!==''){        
-        errorMessage.value =  formattedData(encodeURL(text.value));
-      }else{
-        ElMessage.warning('请输入报文！')
-      }
-
+    if(text.value!==''){
+      const arrayBuffer = hexToBuffer(text.value);
+      const blob = new Blob([arrayBuffer], { type: 'image/jpeg' }); // 假设图片格式为JPEG
+      const url = URL.createObjectURL(blob);
+      console.log(blob);
+      
+      img.value = url
+      // errorMessage.value =  formattedData(text.value);
+    }else{
+      ElMessage.warning('请输入报文！')
     }
 
-/**
-* 对给定的编码过的字符串进行 URL 解码
-* @param encodedUrl - 编码后的 URL 字符串
-* @returns - 解码后的 URL 字符串
-*/
-function decodeURL(encodedUrl: string): string {
-return decodeURIComponent(encodedUrl);
-}
-
-/**
-* 对给定的字符串进行 URL 编码
-* @param url - 要编码的 URL 字符串
-* @returns - 编码后的 URL 字符串
-*/
-function encodeURL(url: string): string {
-return encodeURIComponent(url);
-}
-
-    const formattedData = ((errorMessage) => {
-      try {
-        // 尝试解析 JSON 字符串
-        const jsonObject = JSON.parse(errorMessage);
-        const jsonString = JSON.stringify(jsonObject, null, 4); // 美化 JSON 字符串
-        return hljs.highlight('json', jsonString).value; // 使用 highlight.js 进行高亮
-      } catch (error) {
-        console.error("Invalid JSON input:", error.message);
-        // 如果 JSON 格式不正确，返回错误提示
-        return hljs.highlightAuto(errorMessage).value;
-      }
-    });
-
-    onMounted(() => {
-      // 在组件挂载时，手动应用高亮效果
-      document.querySelectorAll('pre code').forEach((block) => {
-        hljs.highlightBlock(block);
-      });
-    });
-
-//复制操作
-function copy() {
-  if(errorMessage.value.length>0){
-
-    const textarea = document.createElement('textarea')
-    textarea.value = document.getElementsByClassName("header-left")[0].innerText
-    document.body.appendChild(textarea)
-    textarea.select()
-
-    try {
-      document.execCommand('copy')
-      ElMessage.success('复制成功！')
-    } catch (err) {
-      ElMessage.error('复制失败，请重试！')
-    }
-
-    document.body.removeChild(textarea)
-  }else{
-    ElMessage.warning('请输入json！')
   }
+
+  function hexToBuffer(hexString: string): ArrayBuffer {
+    const byteArray = new Uint8Array(hexString.length / 2);
+    
+    for (let i = 0; i < hexString.length; i += 2) {
+        byteArray[i / 2] = parseInt(hexString.substr(i, 2), 16);
+    }
+    return byteArray.buffer;
 }
+
 //返回home
 function back(){
   router.push('/');
@@ -126,31 +71,10 @@ function back(){
     </div>
   
     <div class="item-mid">
-      <el-button @click="decode()">解码</el-button>
-      <el-button @click="encode()">编码</el-button>
+      <el-button @click="submit()">转换</el-button>
     </div>
   
-    <div class=" card" id="result">
-      <div class="top">
-        <div class="circle">
-          <span class="red circle2"></span>
-        </div>
-        <div class="circle">
-          <span class="yellow circle2"></span>
-        </div>
-        <div class="circle">
-          <span class="green circle2"></span>
-        </div>
-        <div class="title">
-        </div>
-        <div class="header2">
-          <el-button class="copy-btn" @click="copy()" :icon="DocumentCopy" />
-        </div>
-      </div>
-      <div class="header-left">
-        <div v-html="errorMessage"></div>
-      </div>
-    </div>
+    <img :src="img" title="这是一张图片" alt="这是一张图片" class=" card">
   
   </div>
     
@@ -178,7 +102,6 @@ function back(){
       transition: 0.5s;
       padding: 1rem;
       white-space: pre-wrap;
-      word-wrap: break-word; /* 强制长单词换行 */
     }
   
     .middle{
@@ -206,10 +129,6 @@ function back(){
       flex-direction: column;
       margin: 0 1rem ;
       width: 5rem;
-    }
-    .item-mid .el-button{
-      margin-top: 1rem;
-      margin-left: 0px;
     }
   
     .header-left{

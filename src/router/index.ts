@@ -46,6 +46,12 @@ const routes: RouteRecordRaw[] = [
     component: () => import('@/views/tools/ChangeImg16.vue'),
     meta:{title:'图片转16进制'},
   },
+  {
+    path: '/toImg',
+    name: 'toImg',
+    component: () => import('@/views/tools/ToImg.vue'),
+    meta:{title:'16进制转图片'},
+  },
 ]
 
 export const router = createRouter({

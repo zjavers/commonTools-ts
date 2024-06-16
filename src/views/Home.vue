@@ -2,10 +2,10 @@
 import { ref } from 'vue'
 
 const menu = ref([
-  // { 
-  //   name: '8583转换',
-  //   url: '/data8583',
-  // },
+  { 
+    name: '8583转换',
+    url: '/data8583',
+  },
   { 
     name: '参数转换',
     url: '/param',
@@ -25,6 +25,10 @@ const menu = ref([
   { 
     name: '图片转16进制',
     url: '/changeImg',
+  },
+  { 
+    name: '16进制转图片',
+    url: '/toImg',
   },
   
 ])

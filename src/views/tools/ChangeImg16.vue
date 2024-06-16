@@ -85,10 +85,6 @@ function copy() {
 }
 
 function handleFileSelect(event: Event) {
-  console.log(event);
-  
-    
-      
         const file = event;
         const reader = new FileReader();
 
@@ -99,7 +95,6 @@ function handleFileSelect(event: Event) {
         };
 
         reader.readAsArrayBuffer(file);
-    
 }
 
 function bufferToHex(buffer: ArrayBuffer): string {

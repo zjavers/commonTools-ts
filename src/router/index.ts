@@ -1,7 +1,6 @@
 import type { App } from 'vue'
 import type { RouteRecordRaw } from 'vue-router'
 import { createRouter, createWebHistory } from 'vue-router'
-// import { setupPageGuard } from './permission'
 
 const routes: RouteRecordRaw[] = [
   {

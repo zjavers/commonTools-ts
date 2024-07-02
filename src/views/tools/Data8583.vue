@@ -30,7 +30,7 @@ import { useRouter } from 'vue-router'
 
   }
 
-function coumputedF55(data){
+function coumputedF55(data ){
   return Array.from(decodeF55(hexStrToBytes(data)).entries());
 }
 
@@ -133,7 +133,7 @@ function description(index: any){
 }
 
 
-function decodeF55(f55: Uint8Array | null): Map<string, string> {
+function decodeF55(f55: Uint8Array): Map<string, string> {
     const map = new Map<string, string>();
     let offset = 0;
 
@@ -176,7 +176,7 @@ function hexBytesToStr(bytes: Uint8Array | null): string {
         .map(byte => byte.toString(16).padStart(2, '0'))
         .join('');
 }
-function hexStrToBytes(hexStr: string): Uint8Array | null {
+function hexStrToBytes(hexStr: string | null): Uint8Array | null {
     if (hexStr === null || hexStr.trim().length === 0) {
         return null;
     }
@@ -209,7 +209,9 @@ function getDisplayLength(str: string): number {
 //16进制转中文
 function hexToChinese(hexStr: string): string {
     // 将16进制字符串转换为Uint8Array
-    const bytes = new Uint8Array(hexStr.match(/.{1,2}/g).map(byte => parseInt(byte, 16)));
+    const matches = hexStr.match(/.{1,2}/g);
+    const bytes = matches ? new Uint8Array(matches.map(byte => parseInt(byte, 16))) : new Uint8Array();
+    // const bytes = new Uint8Array(hexStr.match(/.{1,2}/g).map(byte => parseInt(byte, 16)));
 
     // 使用TextDecoder解码为字符串，默认编码为utf-8
     const decoder = new TextDecoder("gbk");

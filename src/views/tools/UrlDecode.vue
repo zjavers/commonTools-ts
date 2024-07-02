@@ -54,14 +54,13 @@ function encodeURL(url: string): string {
 return encodeURIComponent(url);
 }
 
-    const formattedData = ((errorMessage) => {
+    const formattedData = ((errorMessage : any) => {
       try {
         // 尝试解析 JSON 字符串
         const jsonObject = JSON.parse(errorMessage);
         const jsonString = JSON.stringify(jsonObject, null, 4); // 美化 JSON 字符串
         return hljs.highlight('json', jsonString).value; // 使用 highlight.js 进行高亮
       } catch (error) {
-        console.error("Invalid JSON input:", error.message);
         // 如果 JSON 格式不正确，返回错误提示
         return hljs.highlightAuto(errorMessage).value;
       }

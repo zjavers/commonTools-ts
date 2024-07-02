@@ -1,12 +1,8 @@
 <script setup lang="ts">
-  import { ref, onMounted } from 'vue'
-  import {
-    DocumentCopy
-} from '@element-plus/icons-vue'
+  import { ref } from 'vue'
 
 import { ElMessage } from 'element-plus'
 import { useRouter } from 'vue-router'
-import hljs from 'highlight.js';
 import 'highlight.js/styles/a11y-dark.min.css'; // 可以选择你喜欢的主题样式
   
   const text = ref('');

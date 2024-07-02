@@ -16,4 +16,4 @@ async function data8583(data: string) {
   }
 }
 
-export { data8583 }
+export  { data8583 }

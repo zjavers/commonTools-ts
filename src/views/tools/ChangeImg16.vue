@@ -1,19 +1,16 @@
 <script setup lang="ts">
-  import { ref, onMounted } from 'vue'
+  import { ref } from 'vue'
   import {
     DocumentCopy,Plus 
 } from '@element-plus/icons-vue'
 
 import { ElMessage } from 'element-plus'
 import { useRouter } from 'vue-router'
-import hljs from 'highlight.js';
 import 'highlight.js/styles/a11y-dark.min.css'; // 可以选择你喜欢的主题样式
 import type { UploadProps, UploadUserFile } from 'element-plus'
   
-  const text = ref('');
   const errorMessage = ref('');
   const router = useRouter()
-  const placeholder = import.meta.env.VITE_JSON_PLACEHOLDER || '请输入JSON'
 
   const fileList = ref<UploadUserFile[]>([
   
@@ -31,36 +28,7 @@ import type { UploadProps, UploadUserFile } from 'element-plus'
     dialogVisible.value = true
   }
 
-  //转换报文
-  const submit = async ()=> {
-
-    if(text.value!==''){
-      errorMessage.value =  formattedData(text.value);
-    }else{
-      ElMessage.warning('请输入报文！')
-    }
-
-  }
-
-    const formattedData = ((errorMessage) => {
-      try {
-        // 尝试解析 JSON 字符串
-        const jsonObject = JSON.parse(errorMessage);
-        const jsonString = JSON.stringify(jsonObject, null, 4); // 美化 JSON 字符串
-        return hljs.highlight('json', jsonString).value; // 使用 highlight.js 进行高亮
-      } catch (error) {
-        console.error("Invalid JSON input:", error.message);
-        // 如果 JSON 格式不正确，返回错误提示
-        return hljs.highlightAuto(errorMessage).value;
-      }
-    });
-
-    onMounted(() => {
-      // 在组件挂载时，手动应用高亮效果
-      document.querySelectorAll('pre code').forEach((block) => {
-        hljs.highlightBlock(block);
-      });
-    });
+  
 
 //复制操作
 function copy() {
@@ -84,11 +52,11 @@ function copy() {
   }
 }
 
-function handleFileSelect(event: Event) {
+function handleFileSelect(event: any) {
         const file = event;
         const reader = new FileReader();
 
-        reader.onload = function(e) {
+        reader.onload = function() {
             const arrayBuffer = reader.result as ArrayBuffer;
             const hexString = bufferToHex(arrayBuffer);
             errorMessage.value = hexString

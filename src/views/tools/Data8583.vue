@@ -291,7 +291,7 @@ function back(){
   </div>
 
   <div class="item-mid">
-    <el-button @click="submit()">转换</el-button>
+    <el-button @click="submit()">解析</el-button>
   </div>
 
   <div :class="!switchFlag ? 'result result-style1' : 'card'" id="result">

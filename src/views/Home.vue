@@ -3,7 +3,7 @@ import { ref } from 'vue'
 
 const menu = ref([
   { 
-    name: '8583转换',
+    name: '8583解析',
     url: '/data8583',
   },
   { 
@@ -29,6 +29,10 @@ const menu = ref([
   { 
     name: '16进制转图片',
     url: '/toImg',
+  },
+  { 
+    name: '8583转换',
+    url: '/transform8583',
   },
   
 ])
